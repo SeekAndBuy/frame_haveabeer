@@ -42,7 +42,7 @@ public class NotificationBeer implements Notifications {
 	/*
 	public static void main(String[] args) {
 		NotificationBeer notification = new NotificationBeer();
-		if(notification.sendNotification("marcia.ftmenezes@gmail.com")){
+		if(notification.sendNotification("toEmail")){
 			System.out.println("deu tudo certo!");
 		}
 	}
