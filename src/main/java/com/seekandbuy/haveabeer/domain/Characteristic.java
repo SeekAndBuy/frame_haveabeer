@@ -1,5 +1,6 @@
 package com.seekandbuy.haveabeer.domain;
 
-public interface Characteristic {
 
+public interface Characteristic {
+	long id = -1;
 }
