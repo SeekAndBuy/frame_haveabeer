@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.seekandbuy.haveabeer.domain.Promotion;
+import com.seekandbuy.haveabeer.domain.Product;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;
 import com.seekandbuy.haveabeer.services.UserService; 

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
-public class Promotion {
+public class Product {
 
 	@JsonInclude(Include.NON_NULL)
 	private String type;

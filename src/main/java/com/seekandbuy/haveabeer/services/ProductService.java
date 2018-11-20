@@ -7,36 +7,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.seekandbuy.haveabeer.dao.PromotionDao;
-import com.seekandbuy.haveabeer.domain.Promotion;
-import com.seekandbuy.haveabeer.exceptions.PromotionNotFoundException;
+import com.seekandbuy.haveabeer.dao.ProductDao;
+import com.seekandbuy.haveabeer.domain.Product;
+import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 
 @Service
-public class PromotionService 
+public class ProductService 
 {
 	
 	@Autowired
-	private PromotionDao promotionDao;
+	private ProductDao promotionDao;
 	
 	
-	public List<Promotion> listar()
+	public List<Product> listar()
 	{
 		return promotionDao.findAll();  
 	}
 	 
-	public Optional<Promotion> findPromotion(Long id)
+	public Optional<Product> findPromotion(Long id)
 	{
-		Optional<Promotion> promotion = promotionDao.findById(id);
+		Optional<Product> promotion = promotionDao.findById(id);
 		
 		if(promotion == null)
 		{
-			throw new PromotionNotFoundException("Promotion can not be found");
+			throw new ProductNotFoundException("Promotion can not be found");
 		}
 		
 		return promotion;
 	}
 	
-	public Promotion promotionCreate(Promotion promotion) 
+	public Product promotionCreate(Product promotion) 
 	{
 		promotion.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma		
 		return promotionDao.save(promotion);	
@@ -50,23 +50,23 @@ public class PromotionService
 		}
 		catch(EmptyResultDataAccessException e)
 		{
-			throw new PromotionNotFoundException("Promotion can not be found");
+			throw new ProductNotFoundException("Promotion can not be found");
 		}
 	}
 	
-	public void updatePromotion(Promotion promotion)
+	public void updatePromotion(Product promotion)
 	{
 		verifyExistence(promotion);
 		promotionDao.save(promotion);
 	}
 	
 	//Semântica melhor, só verifica existência 
-	public void verifyExistence(Promotion promotion)
+	public void verifyExistence(Product promotion)
 	{
 		findPromotion(promotion.getId());
 	}
 	
-	public List<Promotion> getPromotionByUserId(Long id) 
+	public List<Product> getPromotionByUserId(Long id) 
 	{
 		return promotionDao.getPromotionByUserId(id);
 	}

@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.seekandbuy.haveabeer.auth.Authentication;
+import com.seekandbuy.haveabeer.dao.GenericDao;
 import com.seekandbuy.haveabeer.dao.UserDao;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;

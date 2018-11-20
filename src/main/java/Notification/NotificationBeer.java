@@ -10,8 +10,8 @@ public class NotificationBeer implements Notifications {
 	@Override
 	public boolean sendNotification(String email) {
 		boolean sendOK = false;
-		final String username = "fromEmail@gmail.com"; //Colocar email da empresa aqui
-		final String password = "senhaFromEmail"; //passworda do email da empresa
+		final String username ="seekandbuyorganization@gmail.com"; //Colocar email da empresa aqui
+		final String password = "12345678organization"; //passworda do email da empresa
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -25,7 +25,7 @@ public class NotificationBeer implements Notifications {
 		  });
 		try {
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("fromEmail@gmail.com")); //Colocar email da empresa aqui
+			message.setFrom(new InternetAddress("seekandbuyorganization@gmail.com")); //Colocar email da empresa aqui
 			message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(email));
 			message.setSubject("Seek and Buy");
@@ -42,7 +42,7 @@ public class NotificationBeer implements Notifications {
 	/*
 	public static void main(String[] args) {
 		NotificationBeer notification = new NotificationBeer();
-		if(notification.sendNotification("toEmail")){
+		if(notification.sendNotification("endereco de emal que para o qual se deseja enviar a mensagem")){
 			System.out.println("deu tudo certo!");
 		}
 	}
