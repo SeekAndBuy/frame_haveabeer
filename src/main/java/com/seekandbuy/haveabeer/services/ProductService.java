@@ -12,19 +12,20 @@ import com.seekandbuy.haveabeer.domain.Product;
 import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 
 @Service
-public class ProductService 
+public class ProductService implements GenericService<Product>
 {
 	
 	@Autowired
 	private ProductDao promotionDao;
 	
-	
+	@Override
 	public List<Product> listar()
 	{
 		return promotionDao.findAll();  
 	}
-	 
-	public Optional<Product> findPromotion(Long id)
+	
+	@Override
+	public Optional<Product> findItem(Long id)
 	{
 		Optional<Product> promotion = promotionDao.findById(id);
 		
@@ -36,13 +37,15 @@ public class ProductService
 		return promotion;
 	}
 	
-	public Product promotionCreate(Product promotion) 
+	@Override
+	public Product itemCreate(Product promotion) 
 	{
 		promotion.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma		
 		return promotionDao.save(promotion);	
 	}
 	
-	public void deletePromotion(Long id) 
+	@Override
+	public void deleteItem(Long id) 
 	{
 		try 
 		{
@@ -54,16 +57,18 @@ public class ProductService
 		}
 	}
 	
-	public void updatePromotion(Product promotion)
+	@Override
+	public void updateItem(Product promotion)
 	{
 		verifyExistence(promotion);
 		promotionDao.save(promotion);
 	}
 	
 	//Semântica melhor, só verifica existência 
+	@Override
 	public void verifyExistence(Product promotion)
 	{
-		findPromotion(promotion.getId());
+		findItem(promotion.getId());
 	}
 	
 	public List<Product> getPromotionByUserId(Long id) 
