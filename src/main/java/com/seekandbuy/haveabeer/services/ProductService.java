@@ -19,7 +19,7 @@ public class ProductService implements GenericService<Product>
 	private ProductDao promotionDao;
 	
 	@Override
-	public List<Product> listar()
+	public List<Product> listItem()
 	{
 		return promotionDao.findAll();  
 	}
@@ -38,7 +38,7 @@ public class ProductService implements GenericService<Product>
 	}
 	
 	@Override
-	public Product itemCreate(Product promotion) 
+	public Product createItem(Product promotion) 
 	{
 		promotion.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma		
 		return promotionDao.save(promotion);	

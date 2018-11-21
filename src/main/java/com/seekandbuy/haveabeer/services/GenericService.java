@@ -12,16 +12,15 @@ public interface GenericService<T>
 {
 	public Authentication auth = new Authentication();
 	
-	public List<T> listar();
+	public List<T> listItem();
 	 
 	public Optional<T> findItem(Long id);
 	
-	public T itemCreate(T itensList); 
+	public T createItem(T itensList); 
 	
 	public void deleteItem(Long id);
 	
 	public void updateItem(T item);
 	
-	//Semântica melhor, só verifica existência 
 	public void verifyExistence(T item);		
 }

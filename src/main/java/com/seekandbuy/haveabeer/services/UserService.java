@@ -19,7 +19,7 @@ public class UserService implements GenericService<User>
 	private UserDao userDao;
 	
 	@Override
-	public List<User> listar()
+	public List<User> listItem()
 	{
 		return userDao.findAll();  
 	}
@@ -46,7 +46,7 @@ public class UserService implements GenericService<User>
 	}
 		
 	@Override
-	public User itemCreate(User user) 
+	public User createItem(User user) 
 	{	
 		user.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma
 		String password = user.getPassword();
