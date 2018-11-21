@@ -62,4 +62,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Characteristic getUserCharacteristics() {
+		return userCharacteristics;
+	}
+	public void setUserCharacteristics(Characteristic userCharacteristics) {
+		this.userCharacteristics = userCharacteristics;
+	}
+	
 }

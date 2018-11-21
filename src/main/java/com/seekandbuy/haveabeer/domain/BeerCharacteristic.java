@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class BeerCharacteristic implements Characteristic{
 	
-	@JsonInclude(Include.NON_NULL)
-	private String type;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +21,7 @@ public class BeerCharacteristic implements Characteristic{
 	@JsonInclude(Include.NON_NULL)
 	private double price;
 	
-	public String getType() {
-		return type;
-	}
 
-	public void setType(String tipo) {
-		this.type = tipo;
-	}
 
 	public Long getId() {
 		return Id;

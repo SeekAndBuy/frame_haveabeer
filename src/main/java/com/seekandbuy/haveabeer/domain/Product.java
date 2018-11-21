@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 public class Product {
 
-	Characteristic userCharacteristics;
+	Characteristic productCharacteristics;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,4 +67,14 @@ public class Product {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	public Characteristic getProductCharacteristics() {
+		return productCharacteristics;
+	}
+
+	public void setProductCharacteristics(Characteristic userCharacteristics) {
+		this.productCharacteristics = userCharacteristics;
+	}
+	
+	
 }
