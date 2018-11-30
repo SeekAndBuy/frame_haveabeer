@@ -1,11 +1,11 @@
 package com.seekandbuy.haveabeer.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -13,10 +13,8 @@ import org.hibernate.annotations.CascadeType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@Entity
-public class Product {
-
-	Characteristic productCharacteristics;
+@MappedSuperclass
+public abstract class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +29,6 @@ public class Product {
 	@JoinColumn(name="address_id")
 	@Cascade(CascadeType.PERSIST)
 	private Address address;
-
-	@JsonInclude(Include.NON_NULL)
-	@ManyToOne
-	private User user;
 	
 	public Long getId() {
 		return Id;
@@ -52,13 +46,6 @@ public class Product {
 		this.date = data;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	public Address getAddress() {
 		return address;
@@ -66,15 +53,6 @@ public class Product {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public Characteristic getProductCharacteristics() {
-		return productCharacteristics;
-	}
-
-	public void setProductCharacteristics(Characteristic userCharacteristics) {
-		this.productCharacteristics = userCharacteristics;
-	}
-	
+	}	
 	
 }
