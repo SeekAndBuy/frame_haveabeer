@@ -31,11 +31,6 @@ public class NotificationBeer extends Notification<BeerUser, Beer>{
 		if(charaBeer.getPrice() <= charaUser.getPrice())
 			equal++;
 		
-		System.out.println(charaBeer.getBrand());
-		System.out.println(charaBeer.getPrice());
-		System.out.println(equal);
-		System.out.println();
-		
 		return equal;
 	}
 

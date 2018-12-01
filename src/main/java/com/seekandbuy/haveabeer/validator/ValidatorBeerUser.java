@@ -13,6 +13,9 @@ public class ValidatorBeerUser implements Validator<BeerUser>{
 		if(bUser.getName() == null)
 			return false;
 		
+		if(bUser.getEmail() == null)
+			return false;
+		
 		return true;
 	}
 }

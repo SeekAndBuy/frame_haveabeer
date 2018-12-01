@@ -2,6 +2,7 @@ package com.seekandbuy.haveabeer.services;
 
 import com.seekandbuy.haveabeer.match.SearchBeer;
 import com.seekandbuy.haveabeer.notification.NotificationBeer;
+import com.seekandbuy.haveabeer.validator.ValidatorBeer;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,11 @@ import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 @Service
 public class ProductBeerService extends GenericService<Beer>
 {	
+	
+	public ProductBeerService() {
+		super.validateItem = new ValidatorBeer();
+	}
+	
 	@Autowired
 	private ProductDao productDao;
 	
@@ -52,20 +58,30 @@ public class ProductBeerService extends GenericService<Beer>
 		return promotion;
 	}
 	
-	public Beer createItemAndNotifyUser(Beer product, List<BeerUser> listOfUsers) {
+	public boolean createItemAndNotifyUser(Beer product, List<BeerUser> listOfUsers) {
 		NotificationBeer notificationBeer = new NotificationBeer();
-		Beer beer = this.createItem(product);
 		
-		notificationBeer.sendNotification(product, listOfUsers);
-		return beer;
+		if(createItem(product))
+		{
+			notificationBeer.sendNotification(product, listOfUsers);
+			return true;
+		}
+		else
+			return false;		
 	}
 	
 	@Override
-	public Beer createItem(Beer product) 
+	public boolean createItem(Beer product) 
 	{
-		product.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma	
-		product.getBeerCharacteristic().setId(null);
-		return productDao.save(product);	
+		if(validateItem(product))
+		{		
+			product.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma	
+			product.getBeerCharacteristic().setId(null);
+			productDao.save(product);
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	@Override
@@ -82,22 +98,21 @@ public class ProductBeerService extends GenericService<Beer>
 	}
 	
 	@Override
-	public void updateItem(Beer promotion)
+	public void updateItem(Beer beer)
 	{
-		verifyExistence(promotion);
-		productDao.save(promotion);
-	}
-	
+		verifyExistence(beer);
+		productDao.save(beer);
+	}	
 
 	@Override
-	public void verifyExistence(Beer promotion)
+	public void verifyExistence(Beer beer)
 	{
-		findItem(promotion.getId());
+		findItem(beer.getId());
 	}
 	
-	public List<Beer> getPromotionByUserId(Long id) 
+	public List<Beer> getBeerByUserId(Long id) 
 	{
-		return productDao.getPromotionByUserId(id);
+		return productDao.getBeerByUserId(id);
 	}
 	
 }

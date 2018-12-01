@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.seekandbuy.haveabeer.auth.Authentication;
+import com.seekandbuy.haveabeer.match.SearchItems;
 import com.seekandbuy.haveabeer.notification.Notification;
 import com.seekandbuy.haveabeer.validator.Validator;
 
@@ -20,11 +21,16 @@ public abstract class GenericService<T>
 	 
 	public abstract Optional<T> findItem(Long id);
 	
-	public abstract T createItem(T itensList); 
+	public abstract boolean createItem(T itensList); 
 	
 	public abstract void deleteItem(Long id);
 	
 	public abstract void updateItem(T item);
 	
-	public abstract void verifyExistence(T item);		
+	public abstract void verifyExistence(T item);
+	
+	public boolean validateItem(T item)
+	{
+		return validateItem.validator(item);
+	}
 }

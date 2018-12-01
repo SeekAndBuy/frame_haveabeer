@@ -33,10 +33,11 @@ import com.seekandbuy.haveabeer.services.UserBeerService;
 
 
 @RestController
-@RequestMapping("/promotions")
+@RequestMapping("/product")
 @CrossOrigin(origins="http://localhost:4200")
 public class ProductBeerResources implements GenericResources<Beer>
 {
+
 	@Autowired
 	private ProductBeerService productService;
 	
@@ -50,6 +51,7 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@Override
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Beer>> listItem() {
 		return ResponseEntity.status(HttpStatus.OK).body(productService.listItem());
 	}
@@ -57,7 +59,10 @@ public class ProductBeerResources implements GenericResources<Beer>
 	@Override
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> createItem(@RequestBody Beer product) {
-		product = productService.createItem(product);
+		boolean createProduct = productService.createItem(product);
+		
+		if(!createProduct)
+			return ResponseEntity.badRequest().build();
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(product.getId()).toUri();
@@ -66,11 +71,14 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 	
 	@RequestMapping(value = "/createandnotify/", method = RequestMethod.POST)
-	public ResponseEntity<Void>  createAndNotify(@RequestBody Beer product){
+	public ResponseEntity<Void> createAndNotify(@RequestBody Beer product){
 		List<BeerUser> allUsers = null;	
 		allUsers = userService.listItem();
 		
-		product = productService.createItemAndNotifyUser(product, allUsers);
+		boolean createProduct = productService.createItemAndNotifyUser(product, allUsers);
+		
+		if(!createProduct)
+			return ResponseEntity.badRequest().build();
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(product.getId()).toUri();
@@ -79,7 +87,8 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@Override
-	public ResponseEntity<Optional<Beer>> findItem(Long id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Optional<Beer>> findItem(@PathVariable("id") Long id) {
 		Optional<Beer> promotion = null;
 		try
 		{
@@ -108,7 +117,8 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@Override
-	public ResponseEntity<Void> updateItem(Beer product, Long id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> updateItem(@RequestBody Beer product, @PathVariable("id") Long id) {
 		product.setId(id); // Garantir que o que vai ser atualizado é o que está vindo na URI
 		try
 		{
@@ -123,12 +133,12 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Beer>> findPromotionByUserId(@PathVariable("id") Long id){
+	public ResponseEntity<List<Beer>> findBeerByUserId(@PathVariable("id") Long id){
 		List<Beer> userPromotions = null;
 		
 		try
 		{
-			userPromotions = productService.getPromotionByUserId(id);
+			userPromotions = productService.getBeerByUserId(id);
 		}
 		catch(UserNotFoundException e)
 		{

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.bind.annotation.RestController;
 
 
-
 public interface GenericResources<T> {
 	
 	@RequestMapping(method = RequestMethod.GET)

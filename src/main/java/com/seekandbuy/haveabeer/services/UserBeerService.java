@@ -12,6 +12,8 @@ import com.seekandbuy.haveabeer.dao.UserDao;
 import com.seekandbuy.haveabeer.domain.BeerUser;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;
+import com.seekandbuy.haveabeer.validator.ValidatorBeer;
+import com.seekandbuy.haveabeer.validator.ValidatorBeerUser;
 
 @Service
 public class UserBeerService extends GenericService<BeerUser>
@@ -23,6 +25,10 @@ public class UserBeerService extends GenericService<BeerUser>
 	public List<BeerUser> listItem()
 	{	
 		return userDao.findAll();  
+	}
+	
+	public UserBeerService() {
+		super.validateItem = new ValidatorBeerUser();
 	}
 	
 	@Override
@@ -47,17 +53,24 @@ public class UserBeerService extends GenericService<BeerUser>
 	}
 		
 	@Override
-	public BeerUser createItem(BeerUser user) 
+	public boolean createItem(BeerUser user) 
 	{	
 		user.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma
 		user.getBeerCharacteristic().setId(null);		
 
-		String password = user.getPassword();
-				
-		String token = auth.tokenizerPassword(password);
-		user.setPassword(token);
 		
-		return userDao.save(user);
+		if(validateItem(user))
+		{		
+			String password = user.getPassword();
+					
+			String token = auth.tokenizerPassword(password);
+			user.setPassword(token);
+			
+			userDao.save(user);
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	@Override

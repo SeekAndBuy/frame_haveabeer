@@ -47,7 +47,11 @@ public class UserBeerResources implements GenericResources<BeerUser>
 	@Override
 	@RequestMapping(method = RequestMethod.POST)	
 	public ResponseEntity<Void> createItem(@RequestBody BeerUser user) {
-		user = userService.createItem(user);
+		
+		boolean createProduct = userService.createItem(user);
+		
+		if(!createProduct)
+			return ResponseEntity.badRequest().build();
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(user.getId()).toUri();

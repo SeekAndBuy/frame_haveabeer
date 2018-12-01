@@ -21,14 +21,8 @@ public class SearchBeer extends SearchItems<BeerUser, Beer> {
 	
 	@Override
 	public List<Beer> ListAllProductsByUser(BeerUser user, List<Beer> allBeers) {
-		//System.out.println(id);
-		//Optional<BeerUser> user = userDao.findById(id);
-		
-		//BeerUser userbeer = (BeerUser) user.get();
+	
 		BeerCharacteristic characteristicUser = user.getBeerCharacteristic();
-		
-		//System.out.println(characteristicUser.getBrand());
-		//System.out.println(characteristicUser.getPrice());
 		
 		//classe para armazenar a tupla <product, quantidade de matchs>
 		class CharacteristicAndMatchs{
@@ -100,11 +94,6 @@ public class SearchBeer extends SearchItems<BeerUser, Beer> {
 			equal += 2;
 		if(charaBeer.getPrice() <= charaUser.getPrice())
 			equal++;
-		
-		System.out.println(charaBeer.getBrand());
-		System.out.println(charaBeer.getPrice());
-		System.out.println(equal);
-		System.out.println();
 		
 		return equal;
 	}
