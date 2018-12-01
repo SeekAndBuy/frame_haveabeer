@@ -19,34 +19,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.seekandbuy.haveabeer.domain.BeerUser;
+import com.seekandbuy.haveabeer.domain.CandidateUser;
 //import com.seekandbuy.haveabeer.domain.Product;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;
-import com.seekandbuy.haveabeer.services.UserBeerService; 
+import com.seekandbuy.haveabeer.services.CandidateUerService; 
 
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins="http://localhost:4200")
-public class UserBeerResources implements GenericResources<BeerUser>
+public class UserBeerResources implements GenericResources<CandidateUser>
 {	
 	@Autowired
-	private UserBeerService userService;
+	private CandidateUerService userService;
 	
-	public UserBeerResources(UserBeerService userService) 
+	public UserBeerResources(CandidateUerService userService) 
 	{
 		this.userService = userService;
 	}
 
 	@Override
-	public ResponseEntity<List<BeerUser>> listItem() {
+	public ResponseEntity<List<CandidateUser>> listItem() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.listItem());
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST)	
-	public ResponseEntity<Void> createItem(@RequestBody BeerUser user) {
+	public ResponseEntity<Void> createItem(@RequestBody CandidateUser user) {
 		user = userService.createItem(user);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
@@ -57,8 +57,8 @@ public class UserBeerResources implements GenericResources<BeerUser>
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<BeerUser>> findItem(@PathVariable("id") Long id) {
-		Optional<BeerUser> user = null;
+	public ResponseEntity<Optional<CandidateUser>> findItem(@PathVariable("id") Long id) {
+		Optional<CandidateUser> user = null;
 		try
 		{
 			user = userService.findItem(id);
@@ -86,7 +86,7 @@ public class UserBeerResources implements GenericResources<BeerUser>
 	}
 
 	@Override
-	public ResponseEntity<Void> updateItem(BeerUser user, Long id) {
+	public ResponseEntity<Void> updateItem(CandidateUser user, Long id) {
 		user.setId(id); // Garantir que o que vai ser atualizado é o que está vindo na URI
 		try
 		{

@@ -22,41 +22,41 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.seekandbuy.haveabeer.HaveabeerApplication;
-import com.seekandbuy.haveabeer.domain.Beer;
-import com.seekandbuy.haveabeer.domain.BeerUser;
+import com.seekandbuy.haveabeer.domain.Job;
+import com.seekandbuy.haveabeer.domain.CandidateUser;
 //import com.seekandbuy.haveabeer.domain.Product;
 //import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;
-import com.seekandbuy.haveabeer.services.ProductBeerService;
-import com.seekandbuy.haveabeer.services.UserBeerService;
+import com.seekandbuy.haveabeer.services.ProductJobService;
+import com.seekandbuy.haveabeer.services.CandidateUerService;
 
 
 @RestController
 @RequestMapping("/promotions")
 @CrossOrigin(origins="http://localhost:4200")
-public class ProductBeerResources implements GenericResources<Beer>
+public class ProductJobResources implements GenericResources<Job>
 {
 	@Autowired
-	private ProductBeerService productService;
+	private ProductJobService productService;
 	
 	@Autowired
-	private UserBeerService userService;
+	private CandidateUerService userService;
 	
-	public ProductBeerResources(ProductBeerService productService, UserBeerService userService) 
+	public ProductJobResources(ProductJobService productService, CandidateUerService userService) 
 	{
 		this.productService = productService;
 		this.userService = userService;
 	}
 
 	@Override
-	public ResponseEntity<List<Beer>> listItem() {
+	public ResponseEntity<List<Job>> listItem() {
 		return ResponseEntity.status(HttpStatus.OK).body(productService.listItem());
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> createItem(@RequestBody Beer product) {
+	public ResponseEntity<Void> createItem(@RequestBody Job product) {
 		product = productService.createItem(product);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
@@ -66,8 +66,8 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 	
 	@RequestMapping(value = "/createandnotify/", method = RequestMethod.POST)
-	public ResponseEntity<Void>  createAndNotify(@RequestBody Beer product){
-		List<BeerUser> allUsers = null;	
+	public ResponseEntity<Void>  createAndNotify(@RequestBody Job product){
+		List<CandidateUser> allUsers = null;	
 		allUsers = userService.listItem();
 		
 		product = productService.createItemAndNotifyUser(product, allUsers);
@@ -79,8 +79,8 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@Override
-	public ResponseEntity<Optional<Beer>> findItem(Long id) {
-		Optional<Beer> promotion = null;
+	public ResponseEntity<Optional<Job>> findItem(Long id) {
+		Optional<Job> promotion = null;
 		try
 		{
 			promotion = productService.findItem(id);
@@ -108,7 +108,7 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@Override
-	public ResponseEntity<Void> updateItem(Beer product, Long id) {
+	public ResponseEntity<Void> updateItem(Job product, Long id) {
 		product.setId(id); // Garantir que o que vai ser atualizado é o que está vindo na URI
 		try
 		{
@@ -123,8 +123,8 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Beer>> findPromotionByUserId(@PathVariable("id") Long id){
-		List<Beer> userPromotions = null;
+	public ResponseEntity<List<Job>> findPromotionByUserId(@PathVariable("id") Long id){
+		List<Job> userPromotions = null;
 		
 		try
 		{
@@ -139,16 +139,16 @@ public class ProductBeerResources implements GenericResources<Beer>
 	}
 	
 	@RequestMapping(value = "/bycharacteristics/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Beer>> findBeerByUserCharacteristic(@PathVariable("id") Long id){
-		List<Beer> productsByCharacteristic = null;
+	public ResponseEntity<List<Job>> findBeerByUserCharacteristic(@PathVariable("id") Long id){
+		List<Job> productsByCharacteristic = null;
 		
-		List<Beer> allBeers = null;
-		Optional<BeerUser> userBeer = null;		
+		List<Job> allBeers = null;
+		Optional<CandidateUser> userBeer = null;		
 		
 		try
 		{
 			userBeer = userService.findItem(id);
-			BeerUser user = (BeerUser) userBeer.get();
+			CandidateUser user = (CandidateUser) userBeer.get();
 			
 			allBeers = productService.listItem();
 			

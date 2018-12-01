@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.seekandbuy.haveabeer.dao.UserDao;
+import com.seekandbuy.haveabeer.dao.CandidateUserDao;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 import com.seekandbuy.haveabeer.exceptions.TokenNotFoundException;
 
 public class SavePassword {
-	private UserDao userDao;
+	private CandidateUserDao userDao;
 	private Map<String, Object> codification;
 	
 	public SavePassword(){

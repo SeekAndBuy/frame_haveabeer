@@ -2,18 +2,18 @@ package com.seekandbuy.haveabeer.notification;
 
 import java.util.List;
 
-import com.seekandbuy.haveabeer.domain.Beer;
-import com.seekandbuy.haveabeer.domain.BeerCharacteristic;
-import com.seekandbuy.haveabeer.domain.BeerUser;
+import com.seekandbuy.haveabeer.domain.Job;
+import com.seekandbuy.haveabeer.domain.JobCharacteristic;
+import com.seekandbuy.haveabeer.domain.CandidateUser;
 
-public class NotificationBeer extends Notification<BeerUser, Beer>{
+public class NotificationBeer extends Notification<CandidateUser, Job>{
 
 	@Override
-	public void sendNotification(Beer product, List<BeerUser> listOfUsers) {
+	public void sendNotification(Job product, List<CandidateUser> listOfUsers) {
 		int whenNotification = 2; //Se o produto tiver mais de dois pontos de interesse, o usuario sera notificado.
-		BeerCharacteristic beerCharacteristic = product.getBeerCharacteristic();
+		JobCharacteristic beerCharacteristic = product.getJobCharacteristic();
 		
-		for(BeerUser u: listOfUsers) {
+		for(CandidateUser u: listOfUsers) {
 			int matchs = this.countMatchs(u.getBeerCharacteristic(), beerCharacteristic);
 			if(matchs>whenNotification) {
 				sendMail.sendNotification("seekandbuyorganization@gmail.com",
@@ -23,16 +23,16 @@ public class NotificationBeer extends Notification<BeerUser, Beer>{
 		
 	}
 	
-	private int countMatchs(BeerCharacteristic charaUser, BeerCharacteristic charaBeer) {
+	private int countMatchs(JobCharacteristic charaUser, JobCharacteristic charaBeer) {
 		int equal = 0;
 		
-		if(charaUser.getBrand().equals(charaBeer.getBrand()))
+		if(charaUser.getEscolaridade().equals(charaBeer.getEscolaridade()))
 			equal += 2;
-		if(charaBeer.getPrice() <= charaUser.getPrice())
+		if(charaBeer.getSalario() <= charaUser.getSalario())
 			equal++;
 		
-		System.out.println(charaBeer.getBrand());
-		System.out.println(charaBeer.getPrice());
+		System.out.println(charaBeer.getEscolaridade());
+		System.out.println(charaBeer.getSalario());
 		System.out.println(equal);
 		System.out.println();
 		

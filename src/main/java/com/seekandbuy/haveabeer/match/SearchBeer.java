@@ -13,33 +13,33 @@ import java.util.Comparator;
 
 //import com.seekandbuy.haveabeer.dao.ProductDao;
 //import com.seekandbuy.haveabeer.dao.UserDao;
-import com.seekandbuy.haveabeer.domain.Beer;
-import com.seekandbuy.haveabeer.domain.BeerCharacteristic;
-import com.seekandbuy.haveabeer.domain.BeerUser;
+import com.seekandbuy.haveabeer.domain.Job;
+import com.seekandbuy.haveabeer.domain.JobCharacteristic;
+import com.seekandbuy.haveabeer.domain.CandidateUser;
 
-public class SearchBeer extends SearchItems<BeerUser, Beer> {
+public class SearchBeer extends SearchItems<CandidateUser, Job> {
 	
 	@Override
-	public List<Beer> ListAllProductsByUser(BeerUser user, List<Beer> allBeers) {
+	public List<Job> ListAllProductsByUser(CandidateUser user, List<Job> allBeers) {
 		//System.out.println(id);
 		//Optional<BeerUser> user = userDao.findById(id);
 		
 		//BeerUser userbeer = (BeerUser) user.get();
-		BeerCharacteristic characteristicUser = user.getBeerCharacteristic();
+		JobCharacteristic characteristicUser = user.getBeerCharacteristic();
 		
 		//System.out.println(characteristicUser.getBrand());
 		//System.out.println(characteristicUser.getPrice());
 		
 		//classe para armazenar a tupla <product, quantidade de matchs>
 		class CharacteristicAndMatchs{
-			public Beer beer;
+			public Job beer;
 			public int matchValue; 
 			
-			public CharacteristicAndMatchs(Beer beer, int matchValue) {
+			public CharacteristicAndMatchs(Job beer, int matchValue) {
 				this.beer = beer;
 				this.matchValue =matchValue;
 			}
-			public Beer getBeer() {
+			public Job getBeer() {
 				return this.beer;
 			}
 			
@@ -48,14 +48,14 @@ public class SearchBeer extends SearchItems<BeerUser, Beer> {
 			}
 		}
 		
-		class SortbyBeer implements Comparator<Beer> 
+		class SortbyBeer implements Comparator<Job> 
 		{ 
 		    // Used for sorting in ascending order of 
 		    // roll number 
 			@Override
-			public int compare(Beer b1, Beer b2) {
+			public int compare(Job b1, Job b2) {
 				
-				double value = b1.getBeerCharacteristic().getPrice() - b2.getBeerCharacteristic().getPrice();
+				double value = b1.getJobCharacteristic().getSalario() - b2.getJobCharacteristic().getSalario();
 				
 				if(value < 0)
 					return -1;
@@ -67,13 +67,13 @@ public class SearchBeer extends SearchItems<BeerUser, Beer> {
 		}
 		
 		List<CharacteristicAndMatchs> characteristicMatchs = new ArrayList<CharacteristicAndMatchs>();
-		List<Beer> productsByUser = new ArrayList<Beer>();
+		List<Job> productsByUser = new ArrayList<Job>();
 		
 		Collections.sort(allBeers, new SortbyBeer());
 		
-		for(Beer p: allBeers) {
+		for(Job p: allBeers) {
 			
-			BeerCharacteristic characteristicProduct = (BeerCharacteristic) p.getBeerCharacteristic();
+			JobCharacteristic characteristicProduct = (JobCharacteristic) p.getJobCharacteristic();
 			int matchSize = this.countMatchs(characteristicUser, characteristicProduct);		
 			
 			CharacteristicAndMatchs matchCharacter = new CharacteristicAndMatchs(p, matchSize);
@@ -93,16 +93,16 @@ public class SearchBeer extends SearchItems<BeerUser, Beer> {
 	}
 	
 	//Metodo auxiliar para contar os matchs das caracteristicas do produto com as do usuario
-	private int countMatchs(BeerCharacteristic charaUser, BeerCharacteristic charaBeer) {
+	private int countMatchs(JobCharacteristic charaUser, JobCharacteristic charaBeer) {
 		int equal = 0;
 		
-		if(charaUser.getBrand().equals(charaBeer.getBrand()))
+		if(charaUser.getEscolaridade().equals(charaBeer.getEscolaridade()))
 			equal += 2;
-		if(charaBeer.getPrice() <= charaUser.getPrice())
+		if(charaBeer.getSalario() <= charaUser.getSalario())
 			equal++;
 		
-		System.out.println(charaBeer.getBrand());
-		System.out.println(charaBeer.getPrice());
+		System.out.println(charaBeer.getEscolaridade());
+		System.out.println(charaBeer.getSalario());
 		System.out.println(equal);
 		System.out.println();
 		

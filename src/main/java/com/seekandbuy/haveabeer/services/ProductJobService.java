@@ -13,58 +13,58 @@ import org.springframework.stereotype.Service;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.seekandbuy.haveabeer.domain.Beer;
-import com.seekandbuy.haveabeer.domain.BeerUser;
-import com.seekandbuy.haveabeer.dao.ProductDao;
+import com.seekandbuy.haveabeer.domain.Job;
+import com.seekandbuy.haveabeer.domain.CandidateUser;
+import com.seekandbuy.haveabeer.dao.JobDao;
 //import com.seekandbuy.haveabeer.dao.UserDao;
 //import com.seekandbuy.haveabeer.dao.UserDao;
 import com.seekandbuy.haveabeer.exceptions.ProductNotFoundException;
 
 @Service
-public class ProductBeerService extends GenericService<Beer>
+public class ProductJobService extends GenericService<Job>
 {	
 	@Autowired
-	private ProductDao productDao;
+	private JobDao productDao;
 	
 	SearchBeer searchBeer = new SearchBeer();
 	
-	public List<Beer> listItemByUserCharacteristic(BeerUser user, List<Beer> allBeers){
+	public List<Job> listItemByUserCharacteristic(CandidateUser user, List<Job> allBeers){
 
 		return searchBeer.ListAllProductsByUser(user, allBeers);
 	}
 	
 	@Override
-	public List<Beer> listItem()
+	public List<Job> listItem()
 	{
 		return productDao.findAll();  
 	}
 	
 	@Override
-	public Optional<Beer> findItem(Long id)
+	public Optional<Job> findItem(Long id)
 	{
-		Optional<Beer> promotion = productDao.findById(id);
+		Optional<Job> promotion = productDao.findById(id);
 		
 		if(promotion == null)
 		{
-			throw new ProductNotFoundException("Promotion can not be found");
+			throw new ProductNotFoundException("Job can not be found");
 		}
 		
 		return promotion;
 	}
 	
-	public Beer createItemAndNotifyUser(Beer product, List<BeerUser> listOfUsers) {
+	public Job createItemAndNotifyUser(Job product, List<CandidateUser> listOfUsers) {
 		NotificationBeer notificationBeer = new NotificationBeer();
-		Beer beer = this.createItem(product);
+		Job beer = this.createItem(product);
 		
 		notificationBeer.sendNotification(product, listOfUsers);
 		return beer;
 	}
 	
 	@Override
-	public Beer createItem(Beer product) 
+	public Job createItem(Job product) 
 	{
 		product.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma	
-		product.getBeerCharacteristic().setId(null);
+		product.getJobCharacteristic().setId(null);
 		return productDao.save(product);	
 	}
 	
@@ -77,25 +77,25 @@ public class ProductBeerService extends GenericService<Beer>
 		}
 		catch(EmptyResultDataAccessException e)
 		{
-			throw new ProductNotFoundException("Promotion can not be found");
+			throw new ProductNotFoundException("Jog can not be found");
 		}
 	}
 	
 	@Override
-	public void updateItem(Beer promotion)
+	public void updateItem(Job job)
 	{
-		verifyExistence(promotion);
-		productDao.save(promotion);
+		verifyExistence(job);
+		productDao.save(job);
 	}
 	
 
 	@Override
-	public void verifyExistence(Beer promotion)
+	public void verifyExistence(Job job)
 	{
-		findItem(promotion.getId());
+		findItem(job.getId());
 	}
 	
-	public List<Beer> getPromotionByUserId(Long id) 
+	public List<Job> getPromotionByUserId(Long id) 
 	{
 		return productDao.getPromotionByUserId(id);
 	}
