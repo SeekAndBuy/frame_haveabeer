@@ -2,18 +2,18 @@ package com.seekandbuy.haveabeer.notification;
 
 import java.util.List;
 
-import com.seekandbuy.haveabeer.domain.Job;
-import com.seekandbuy.haveabeer.domain.JobCharacteristic;
-import com.seekandbuy.haveabeer.domain.CandidateUser;
+import com.seekandbuy.haveabeer.domain.Beer;
+import com.seekandbuy.haveabeer.domain.BeerCharacteristic;
+import com.seekandbuy.haveabeer.domain.BeerUser;
 
-public class NotificationBeer extends Notification<CandidateUser, Job>{
+public class NotificationBeer extends Notification<BeerUser, Beer>{
 
 	@Override
-	public void sendNotification(Job product, List<CandidateUser> listOfUsers) {
+	public void sendNotification(Beer product, List<BeerUser> listOfUsers) {
 		int whenNotification = 2; //Se o produto tiver mais de dois pontos de interesse, o usuario sera notificado.
-		JobCharacteristic beerCharacteristic = product.getJobCharacteristic();
+		BeerCharacteristic beerCharacteristic = product.getBeerCharacteristic();
 		
-		for(CandidateUser u: listOfUsers) {
+		for(BeerUser u: listOfUsers) {
 			int matchs = this.countMatchs(u.getBeerCharacteristic(), beerCharacteristic);
 			if(matchs>whenNotification) {
 				sendMail.sendNotification("seekandbuyorganization@gmail.com",
@@ -23,16 +23,16 @@ public class NotificationBeer extends Notification<CandidateUser, Job>{
 		
 	}
 	
-	private int countMatchs(JobCharacteristic charaUser, JobCharacteristic charaBeer) {
+	private int countMatchs(BeerCharacteristic charaUser, BeerCharacteristic charaBeer) {
 		int equal = 0;
 		
-		if(charaUser.getEscolaridade().equals(charaBeer.getEscolaridade()))
+		if(charaUser.getBrand().equals(charaBeer.getBrand()))
 			equal += 2;
-		if(charaBeer.getSalario() <= charaUser.getSalario())
+		if(charaBeer.getPrice() <= charaUser.getPrice())
 			equal++;
 		
-		System.out.println(charaBeer.getEscolaridade());
-		System.out.println(charaBeer.getSalario());
+		System.out.println(charaBeer.getBrand());
+		System.out.println(charaBeer.getPrice());
 		System.out.println(equal);
 		System.out.println();
 		

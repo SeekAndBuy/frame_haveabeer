@@ -8,29 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.seekandbuy.haveabeer.dao.CandidateUserDao;
-//import com.seekandbuy.haveabeer.dao.EmployerUserDao;
-import com.seekandbuy.haveabeer.domain.CandidateUser;
-//import com.seekandbuy.haveabeer.domain.EmployerUser;
+import com.seekandbuy.haveabeer.dao.UserDao;
+import com.seekandbuy.haveabeer.domain.BeerUser;
 import com.seekandbuy.haveabeer.domain.User;
 import com.seekandbuy.haveabeer.exceptions.UserNotFoundException;
 
 @Service
-public class CandidateUerService extends GenericService<CandidateUser>
+public class UserBeerService extends GenericService<BeerUser>
 {	
 	@Autowired
-	private CandidateUserDao candidateUserDao;
+	private UserDao userDao;
 	
 	@Override
-	public List<CandidateUser> listItem()
+	public List<BeerUser> listItem()
 	{	
-		return candidateUserDao.findAll();  
+		return userDao.findAll();  
 	}
 	
 	@Override
-	public Optional<CandidateUser> findItem(Long id)
+	public Optional<BeerUser> findItem(Long id)
 	{
-		Optional<CandidateUser> user = candidateUserDao.findById(id);
+		Optional<BeerUser> user = userDao.findById(id);
 		
 		if(user == null)
 		{
@@ -49,7 +47,7 @@ public class CandidateUerService extends GenericService<CandidateUser>
 	}
 		
 	@Override
-	public CandidateUser createItem(CandidateUser user) 
+	public BeerUser createItem(BeerUser user) 
 	{	
 		user.setId(null); //Garantir que criaremos uma instância nova e não atualizaremos nenhuma
 		user.getBeerCharacteristic().setId(null);		
@@ -59,7 +57,7 @@ public class CandidateUerService extends GenericService<CandidateUser>
 		String token = auth.tokenizerPassword(password);
 		user.setPassword(token);
 		
-		return candidateUserDao.save(user);
+		return userDao.save(user);
 	}
 	
 	@Override
@@ -67,7 +65,7 @@ public class CandidateUerService extends GenericService<CandidateUser>
 	{
 		try 
 		{
-			candidateUserDao.deleteById(id);
+			userDao.deleteById(id);
 		}
 		catch(EmptyResultDataAccessException e)
 		{
@@ -76,15 +74,15 @@ public class CandidateUerService extends GenericService<CandidateUser>
 	}
 	
 	@Override
-	public void updateItem(CandidateUser user)
+	public void updateItem(BeerUser user)
 	{
 		verifyExistence(user);
-		candidateUserDao.save(user);
+		userDao.save(user);
 	}
 	
 	//Semântica melhor, só verifica existência 
 	@Override
-	public void verifyExistence(CandidateUser user)
+	public void verifyExistence(BeerUser user)
 	{
 		findItem(user.getId());
 	}	
@@ -104,7 +102,7 @@ public class CandidateUerService extends GenericService<CandidateUser>
 	{
 		User user;
 		
-		user = candidateUserDao.findUserByEmail(email);
+		user = userDao.findUserByEmail(email);
 		
 		if(user == null)
 		{

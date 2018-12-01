@@ -1,11 +1,11 @@
 package com.seekandbuy.haveabeer.validator;
 
-import com.seekandbuy.haveabeer.domain.CandidateUser;
+import com.seekandbuy.haveabeer.domain.BeerUser;
 
-public class ValidatorBeerUser implements Validator<CandidateUser>{
+public class ValidatorBeerUser implements Validator<BeerUser>{
 
 	@Override
-	public boolean validator(CandidateUser bUser) {
+	public boolean validator(BeerUser bUser) {
 		
 		if(bUser.getBeerCharacteristic() == null)
 			return false;
