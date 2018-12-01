@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Implementation-Title: haveabeer
 Implementation-Version: 1.0.0-SNAPSHOT
 Built-By: jhon
-Implementation-Vendor-Id: com.seekandbuy.haveabeer
+Implementation-Vendor-Id: com.seekandbuy.haveajob
 Build-Jdk: 1.8.0_181
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/haveabeer
+ ot-starter-parent/haveajob
 Created-By: Maven Integration for Eclipse
 
